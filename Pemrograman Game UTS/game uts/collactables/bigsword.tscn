@@ -1,0 +1,66 @@
+[gd_scene load_steps=9 format=3 uid="uid://chdxrvhrla0xv"]
+
+[ext_resource type="PackedScene" uid="uid://cldfgr65jxd0x" path="res://collactables/collectable.tscn" id="1_awbwp"]
+[ext_resource type="Texture2D" uid="uid://bc61t6jh1ds7n" path="res://art/Sprite.png" id="2_3n0jd"]
+[ext_resource type="Script" path="res://collactables/bigsword.gd" id="2_l4uoj"]
+[ext_resource type="Resource" uid="uid://bgxa2yaabp4tf" path="res://inventory/items/sword.tres" id="3_l11ll"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nk8cm"]
+resource_local_to_scene = true
+size = Vector2(6, 15)
+
+[sub_resource type="Animation" id="Animation_vafgd"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_cl150"]
+resource_name = "spin"
+length = 0.4
+step = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 6.28319]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_s1j3v"]
+_data = {
+"RESET": SubResource("Animation_vafgd"),
+"spin": SubResource("Animation_cl150")
+}
+
+[node name="Bigsword" instance=ExtResource("1_awbwp")]
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("2_l4uoj")
+itemRes = ExtResource("3_l11ll")
+
+[node name="CollisionShape2D" parent="." index="0"]
+position = Vector2(0, 0.5)
+shape = SubResource("RectangleShape2D_nk8cm")
+
+[node name="Sprite2D" parent="." index="1"]
+texture = ExtResource("2_3n0jd")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="2"]
+libraries = {
+"": SubResource("AnimationLibrary_s1j3v")
+}
